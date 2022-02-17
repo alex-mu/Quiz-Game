@@ -1,6 +1,3 @@
-from dataclasses import field
-from email import message
-from typing_extensions import Self
 from flask_wtf import FlaskForm as Form
 from wtforms import RadioField
 from wtforms.validators import ValidationError
@@ -12,8 +9,9 @@ class CorrectAnswer(object):
         self.answer = answer
 def __call__(self, form, field):
         message = 'Incorrect answer.'
-if field.data != Self.answer:
+        if field.data != self.answer:
             raise ValidationError(message)
+            
 class PopQuiz(Form):
     class Meta:
         csrf = False
@@ -22,3 +20,4 @@ class PopQuiz(Form):
         choices=[('True', 'True'), ('False', 'False')],
         validators=[CorrectAnswer('False')]
         )
+
