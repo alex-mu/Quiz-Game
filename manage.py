@@ -1,4 +1,16 @@
+from flask import Flask
 import random, copy
+
+app = Flask(__name__)
+
+#adding the route for the app
+@app.route('/')
+def quiz():
+ return '<h1>Quiz Here</h1>'
+
+if __name__ == '__main__':
+ app.run(debug=True)
+
 
 original_questions = {
     #format is 'question' =[options]
