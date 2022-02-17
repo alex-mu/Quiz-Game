@@ -3,17 +3,8 @@ import random, copy
 
 app = Flask(__name__)
 
-#adding the route for the app
-@app.route('/')
-def quiz():
- return '<h1>Quiz Here</h1>'
-
-if __name__ == '__main__':
- app.run(debug=True)
-
-
 original_questions = {
-    #format is 'question' =[options]
+ #Format is 'question':[options]
  'Taj Mahal':['Agra','New Delhi','Mumbai','Chennai'],
  'Great Wall of China':['China','Beijing','Shanghai','Tianjin'],
  'Petra':['Ma\'an Governorate','Amman','Zarqa','Jerash'],
@@ -24,7 +15,6 @@ original_questions = {
 }
 
 questions = copy.deepcopy(original_questions)
-
 
 def shuffle(q):
  """
@@ -40,14 +30,13 @@ def shuffle(q):
    i = i+1
  return selected_keys
 
+@app.route('/')
+def quiz():
+ questions_shuffled = shuffle(questions)
+ for i in questions.keys():
+  random.shuffle(questions[i])
+ return render_template('main.html', q = questions_shuffled, o = questions)
 
-questions_shuffled = shuffle(questions)
 
-
-for i in questions_shuffled:
- random.shuffle(questions[i])
- print('''
- Where is {} located?
- {}
- Correct Answer is: {}
- ''').format(i,questions[i],original_questions[i][0])
+if __name__ == '__main__':
+ app.run(debug=True)
